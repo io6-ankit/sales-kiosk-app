@@ -25,8 +25,8 @@ public class KioskApplication {
     @Bean
     public MongoClient mongoClient() {
         // यह सिस्टम से MONGO_URI की वैल्यू उठाएगा
-//        String atlasUri = System.getenv("MONGO_URI");
-        String atlasUri = "mongodb+srv://io6ankitmaurya_db_user:SQSW6K8tFMMi5rxN@cluster0.p6avqq7.mongodb.net/?appName=Cluster0";
+
+        String atlasUri = "mongodb+srv://mauryaankit993535_db_user:Ankit9935@cluster0.8m7b35j.mongodb.net/?appName=Cluster0";
         return MongoClients.create(atlasUri);
     }
 }
