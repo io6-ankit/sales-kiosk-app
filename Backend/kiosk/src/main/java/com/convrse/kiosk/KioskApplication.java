@@ -26,7 +26,7 @@ public class KioskApplication {
     public MongoClient mongoClient() {
         // यह सिस्टम से MONGO_URI की वैल्यू उठाएगा
 
-        String atlasUri = "${MONGO_URI}";
+        String atlasUri = System.getenv("MONGO_URI");
         return MongoClients.create(atlasUri);
     }
 }
