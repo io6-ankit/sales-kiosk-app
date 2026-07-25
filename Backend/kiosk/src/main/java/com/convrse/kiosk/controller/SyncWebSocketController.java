@@ -12,6 +12,7 @@ public class SyncWebSocketController {
     @MessageMapping("/sync")
     @SendTo("/topic/sync")
     public SyncMessage processSyncEvent(@Payload SyncMessage message) {
-        return message; // Re-broadcast state change to all clients
+        // Re-broadcasts tab changes, mirror actions & state updates to all STOMP subscribers
+        return message;
     }
 }

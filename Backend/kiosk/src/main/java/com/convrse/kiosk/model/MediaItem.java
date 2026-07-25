@@ -1,17 +1,31 @@
 package com.convrse.kiosk.model;
 
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
+
+@Document(collection = "gallery")
 public class MediaItem {
+
+    @Id
     private String id;
     private String title;
     private String type; // "IMAGE" or "VIDEO"
     private String url;
     private String description;
 
-    // Default Constructor
+    // Default Constructor (Required by Jackson & Spring Data)
     public MediaItem() {
     }
 
-    // All Arguments Constructor
+    // Constructor without ID (Best for creating new items where MongoDB auto-generates the ID)
+    public MediaItem(String title, String type, String url, String description) {
+        this.title = title;
+        this.type = type;
+        this.url = url;
+        this.description = description;
+    }
+
+    // All Arguments Constructor (Retained for existing functionality)
     public MediaItem(String id, String title, String type, String url, String description) {
         this.id = id;
         this.title = title;
@@ -59,5 +73,16 @@ public class MediaItem {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    @Override
+    public String toString() {
+        return "MediaItem{" +
+                "id='" + id + '\'' +
+                ", title='" + title + '\'' +
+                ", type='" + type + '\'' +
+                ", url='" + url + '\'' +
+                ", description='" + description + '\'' +
+                '}';
     }
 }

@@ -50,4 +50,14 @@ public class Unit {
     public void setPrice(double price) {
         this.price = price;
     }
+
+    @Override
+    public String toString() {
+        return "Unit{" +
+                "unitNumber='" + unitNumber + '\'' +
+                ", booked=" + booked +
+                ", bookedBy='" + bookedBy + '\'' +
+                ", price=" + price +
+                '}';
+    }
 }

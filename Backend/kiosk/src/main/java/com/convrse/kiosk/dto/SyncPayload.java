@@ -9,6 +9,12 @@ public class SyncPayload {
     public SyncPayload() {
     }
 
+    // Constructor without data
+    public SyncPayload(String action, String targetId) {
+        this.action = action;
+        this.targetId = targetId;
+    }
+
     // All Arguments Constructor
     public SyncPayload(String action, String targetId, Object data) {
         this.action = action;
@@ -39,5 +45,14 @@ public class SyncPayload {
 
     public void setData(Object data) {
         this.data = data;
+    }
+
+    @Override
+    public String toString() {
+        return "SyncPayload{" +
+                "action='" + action + '\'' +
+                ", targetId='" + targetId + '\'' +
+                ", data=" + data +
+                '}';
     }
 }

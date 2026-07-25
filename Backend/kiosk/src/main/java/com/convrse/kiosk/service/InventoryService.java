@@ -40,7 +40,7 @@ public class InventoryService {
         return towerRepository.save(existingTower);
     }
 
-    // PATCH (Partial Update - Tower Name or Specific Units)
+    // PATCH (Partial Update - Tower Name)
     public Tower patchTower(String id, Map<String, Object> updates) {
         Tower tower = towerRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Tower not found with id: " + id));
@@ -65,19 +65,23 @@ public class InventoryService {
                 .orElseThrow(() -> new ResourceNotFoundException("Tower not found with id: " + towerId));
 
         boolean found = false;
-        for (Unit unit : tower.getUnits()) {
-            if (unit.getUnitNumber().equalsIgnoreCase(unitNumber)) {
-                if (updates.containsKey("booked")) {
-                    unit.setBooked((Boolean) updates.get("booked"));
+
+        // ✅ FIX: Null check added to prevent NullPointerException if units list is null
+        if (tower.getUnits() != null) {
+            for (Unit unit : tower.getUnits()) {
+                if (unit.getUnitNumber() != null && unit.getUnitNumber().equalsIgnoreCase(unitNumber)) {
+                    if (updates.containsKey("booked")) {
+                        unit.setBooked(Boolean.parseBoolean(updates.get("booked").toString()));
+                    }
+                    if (updates.containsKey("bookedBy")) {
+                        unit.setBookedBy((String) updates.get("bookedBy"));
+                    }
+                    if (updates.containsKey("price")) {
+                        unit.setPrice(Double.parseDouble(updates.get("price").toString()));
+                    }
+                    found = true;
+                    break;
                 }
-                if (updates.containsKey("bookedBy")) {
-                    unit.setBookedBy((String) updates.get("bookedBy"));
-                }
-                if (updates.containsKey("price")) {
-                    unit.setPrice(Double.parseDouble(updates.get("price").toString()));
-                }
-                found = true;
-                break;
             }
         }
 
