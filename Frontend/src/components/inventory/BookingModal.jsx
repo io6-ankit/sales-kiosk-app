@@ -9,6 +9,32 @@ export const BookingModal = () => {
   const [customerName, setCustomerName] = useState('');
   const [phoneNumber, setPhoneNumber] = useState('');
   const [submitting, setSubmitting] = useState(false);
+  const [nameError, setNameError] = useState("");
+  const [phoneError, setPhoneError] = useState("");
+  const handleNameChange = (e) => {
+    const value = e.target.value;
+
+    if (/^[A-Za-z ]*$/.test(value)) {
+      setCustomerName(value);
+      setNameError("");
+    } else {
+      setNameError("Only alphabets are allowed");
+    }
+  };
+  const handlePhoneChange = (e) => {
+    const value = e.target.value;
+
+    if (/^\d*$/.test(value) && value.length <= 10) {
+      setPhoneNumber(value);
+      setPhoneError(""); // टाइप करते समय Error हटाओ
+    }
+
+    if (value.length === 10) {
+      setPhoneError("");
+    } else {
+      setPhoneError("Phone number must be 10 digits");
+    }
+  }
 
   const handleClose = () => {
     setBookingModalOpen(false);
@@ -18,6 +44,23 @@ export const BookingModal = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (!customerName.trim()) {
+      setNameError("Customer name is required");
+      return;
+    }
+
+    if (!/^[A-Za-z ]+$/.test(customerName)) {
+      setNameError("Only alphabets are allowed");
+      return;
+    }
+    // if (!phoneNumber.trim()) {
+    //   setPhoneError("Only Number allowed");
+    //   return;
+    // }
+    if (!/^\d{10}$/.test(phoneNumber)) {
+      setPhoneError("Enter a valid 10-digit phone number");
+      return;
+    }
     if (!customerName || !phoneNumber) {
       showNotification('Please fill in all details', 'warning');
       return;
@@ -25,7 +68,7 @@ export const BookingModal = () => {
 
     try {
       setSubmitting(true);
-      
+
       // Ankit API Payload: { towerId, unitNumber, customerName, phoneNumber }
       const payload = {
         towerId: selectedUnit?.towerId,
@@ -36,7 +79,7 @@ export const BookingModal = () => {
 
       const response = await kioskApi.bookUnit(payload);
       showNotification(response.message || 'Unit booked successfully!', 'success');
-      
+
       await fetchInventory();
       handleClose();
     } catch (err) {
@@ -45,6 +88,7 @@ export const BookingModal = () => {
     } finally {
       setSubmitting(false);
     }
+
   };
 
   return (
@@ -65,7 +109,15 @@ export const BookingModal = () => {
               fullWidth
               required
               value={customerName}
-              onChange={(e) => setCustomerName(e.target.value)}
+              onChange={handleNameChange}
+              onBlur={() => {
+                if (!customerName.trim()) {
+                  setNameError("Customer name is required");
+                }
+              }}
+              error={!!nameError}
+              helperText={nameError}
+            // onChange={(e) => setCustomerName(e.target.value)}
             />
             <TextField
               label="Phone Number"
@@ -74,7 +126,18 @@ export const BookingModal = () => {
               fullWidth
               required
               value={phoneNumber}
-              onChange={(e) => setPhoneNumber(e.target.value)}
+              onChange={handlePhoneChange}
+              onBlur={() => {
+                if (phoneNumber.length !== 10) {
+                  setPhoneError("Phone number must be 10 digits");
+                }
+              }}
+              error={!!phoneError}
+              helperText={phoneError}
+              inputProps={{
+                maxLength: 10
+              }}
+            // onChange={(e) => setPhoneNumber(e.target.value)}
             />
           </Box>
         </DialogContent>
