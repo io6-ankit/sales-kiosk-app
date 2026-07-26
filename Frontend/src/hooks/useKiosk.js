@@ -1,4 +1,3 @@
-// src/hooks/useKiosk.js
 import { useContext } from 'react';
 import { KioskContext } from '../context/KioskContext';
 
