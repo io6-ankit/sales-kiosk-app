@@ -63,7 +63,7 @@
 //                 fetchGallery()
 //             }
 //         }
-       
+
 //     }, [lastMessage]);
 
 //     const handleOpenAdd = () => {
