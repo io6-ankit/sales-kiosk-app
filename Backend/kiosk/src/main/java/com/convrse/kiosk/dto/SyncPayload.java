@@ -1,9 +1,9 @@
 package com.convrse.kiosk.dto;
 
 public class SyncPayload {
-    private String action;      // e.g., "OPEN_PREVIEW", "PLAY_VIDEO", "CHANGE_TAB", "SELECT_TOWER"
-    private String targetId;    // e.g., Image ID, Video URL, Tower ID, Unit Number
-    private Object data;        // Extra metadata (if any)
+    private String action; // "OPEN_PREVIEW", "PLAY_VIDEO", "CHANGE_TAB", "SELECT_TOWER"
+    private String targetId; // Image ID, Video URL, Tower ID, Unit Number
+    private Object data; // Extra metadata (if any)
 
     // Default Constructor
     public SyncPayload() {

@@ -1,15 +1,16 @@
 package com.convrse.kiosk.service;
 
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
 import com.convrse.kiosk.exception.ResourceNotFoundException;
 import com.convrse.kiosk.model.Tower;
 import com.convrse.kiosk.model.Unit;
 import com.convrse.kiosk.repository.TowerRepository;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
 
 @Service
 public class InventoryService {
@@ -59,14 +60,14 @@ public class InventoryService {
         towerRepository.deleteById(id);
     }
 
-    // Sub-Resource: PATCH Unit status inside a Tower
+    // PATCH Unit status inside a Tower
     public Tower patchUnitStatus(String towerId, String unitNumber, Map<String, Object> updates) {
         Tower tower = towerRepository.findById(towerId)
                 .orElseThrow(() -> new ResourceNotFoundException("Tower not found with id: " + towerId));
 
         boolean found = false;
 
-        // ✅ FIX: Null check added to prevent NullPointerException if units list is null
+        // Null check added to prevent NullPointerException if units list is null
         if (tower.getUnits() != null) {
             for (Unit unit : tower.getUnits()) {
                 if (unit.getUnitNumber() != null && unit.getUnitNumber().equalsIgnoreCase(unitNumber)) {

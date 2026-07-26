@@ -1,9 +1,9 @@
 package com.convrse.kiosk.model;
 
 public class SyncMessage {
-    private String type;      // e.g., INVENTORY_UPDATE, TAB_CHANGE
+    private String type; // INVENTORY_UPDATE, TAB_CHANGE
     private Object payload;
-    private String senderId;  // Client identifier
+    private String senderId; // Client identifier
 
     public SyncMessage() {
     }

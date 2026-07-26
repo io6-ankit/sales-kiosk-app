@@ -1,16 +1,26 @@
 package com.convrse.kiosk.controller;
 
+import java.util.List;
+import java.util.Map;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
 import com.convrse.kiosk.exception.ResourceNotFoundException;
 import com.convrse.kiosk.model.SyncMessage;
 import com.convrse.kiosk.model.Tower;
 import com.convrse.kiosk.service.InventoryService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
-import org.springframework.messaging.simp.SimpMessagingTemplate;
-import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
-import java.util.Map;
 
 @RestController
 @RequestMapping("/api")
@@ -40,10 +50,10 @@ public class InventoryController {
     // POST (CREATE)
     @PostMapping("/inventory/tower")
     public ResponseEntity<Tower> addTower(@RequestBody Tower tower) {
-        tower.setId(null); // ✅ FIX: Prevents null/invalid id issue for Mongo auto-generation
+        tower.setId(null); // FIX: Prevents null/invalid id issue for Mongo auto-generation
         Tower savedTower = inventoryService.saveTower(tower);
 
-        // 🔥 Broadcast real-time event to SockJS subscribers
+        // Broadcast real-time event to SockJS subscribers
         messagingTemplate.convertAndSend("/topic/sync", new SyncMessage("INVENTORY_ADD", savedTower, "SERVER"));
 
         return ResponseEntity.ok(savedTower);
@@ -54,7 +64,7 @@ public class InventoryController {
     public ResponseEntity<Tower> updateTower(@PathVariable String id, @RequestBody Tower tower) {
         Tower updated = inventoryService.updateTower(id, tower);
 
-        // 🔥 Broadcast update event
+        // Broadcast update event
         messagingTemplate.convertAndSend("/topic/sync", new SyncMessage("INVENTORY_UPDATE", updated, "SERVER"));
 
         return ResponseEntity.ok(updated);
@@ -65,7 +75,7 @@ public class InventoryController {
     public ResponseEntity<Tower> patchTower(@PathVariable String id, @RequestBody Map<String, Object> updates) {
         Tower patched = inventoryService.patchTower(id, updates);
 
-        // 🔥 Broadcast patch event
+        // Broadcast patch event
         messagingTemplate.convertAndSend("/topic/sync", new SyncMessage("INVENTORY_UPDATE", patched, "SERVER"));
 
         return ResponseEntity.ok(patched);
@@ -79,7 +89,7 @@ public class InventoryController {
             @RequestBody Map<String, Object> updates) {
         Tower updatedTower = inventoryService.patchUnitStatus(towerId, unitNumber, updates);
 
-        // 🔥 Broadcast unit update event
+        // Broadcast unit update event
         messagingTemplate.convertAndSend("/topic/sync", new SyncMessage("UNIT_UPDATE", updatedTower, "SERVER"));
 
         return ResponseEntity.ok(updatedTower);
@@ -90,7 +100,7 @@ public class InventoryController {
     public ResponseEntity<Map<String, String>> deleteTower(@PathVariable String id) {
         inventoryService.deleteTower(id);
 
-        // 🔥 Broadcast delete event
+        // Broadcast delete event
         messagingTemplate.convertAndSend("/topic/sync", new SyncMessage("INVENTORY_DELETE", id, "SERVER"));
 
         return ResponseEntity.ok(Map.of("message", "Tower with id " + id + " deleted successfully."));
