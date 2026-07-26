@@ -1,4 +1,3 @@
-// src/components/inventory/BookingModal.jsx
 import React, { useState } from 'react';
 import { Dialog, DialogTitle, DialogContent, DialogActions, TextField, Button, Typography, Box, CircularProgress } from '@mui/material';
 import { useKiosk } from '../../hooks/useKiosk';
@@ -26,7 +25,7 @@ export const BookingModal = () => {
 
     if (/^\d*$/.test(value) && value.length <= 10) {
       setPhoneNumber(value);
-      setPhoneError(""); // टाइप करते समय Error हटाओ
+      setPhoneError("");
     }
 
     if (value.length === 10) {
@@ -53,10 +52,6 @@ export const BookingModal = () => {
       setNameError("Only alphabets are allowed");
       return;
     }
-    // if (!phoneNumber.trim()) {
-    //   setPhoneError("Only Number allowed");
-    //   return;
-    // }
     if (!/^\d{10}$/.test(phoneNumber)) {
       setPhoneError("Enter a valid 10-digit phone number");
       return;
@@ -69,7 +64,7 @@ export const BookingModal = () => {
     try {
       setSubmitting(true);
 
-      // Ankit API Payload: { towerId, unitNumber, customerName, phoneNumber }
+      // API Payload: { towerId, unitNumber, customerName, phoneNumber }
       const payload = {
         towerId: selectedUnit?.towerId,
         unitNumber: selectedUnit?.unitNumber,
@@ -117,7 +112,6 @@ export const BookingModal = () => {
               }}
               error={!!nameError}
               helperText={nameError}
-            // onChange={(e) => setCustomerName(e.target.value)}
             />
             <TextField
               label="Phone Number"
@@ -137,7 +131,6 @@ export const BookingModal = () => {
               inputProps={{
                 maxLength: 10
               }}
-            // onChange={(e) => setPhoneNumber(e.target.value)}
             />
           </Box>
         </DialogContent>

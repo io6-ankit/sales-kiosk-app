@@ -1,4 +1,3 @@
-// src/components/common/Navbar.jsx
 import React, { useState, useEffect, useContext } from 'react';
 import { AppBar, Toolbar, Typography, Button, Box, Chip, Switch, FormControlLabel } from '@mui/material';
 import DashboardIcon from '@mui/icons-material/Dashboard';
@@ -13,11 +12,11 @@ import { BookingManagementModal } from '../admin/BookingManagementModal';
 
 export const Navbar = () => {
   const { activeTab, setActiveTab, role, setRole } = useKiosk();
-  // ✅ FIX 1: Extract lastMessage along with isConnected and publishMirrorState
+  // Extract lastMessage along with isConnected and publishMirrorState
   const { isConnected, publishMirrorState, lastMessage } = useContext(WebSocketContext);
   const [bookingManageOpen, setBookingManageOpen] = useState(false);
 
-  // ✅ FIX 2: Handle Tab Switch locally AND broadcast to WebSocket
+  // Handle Tab Switch locally AND broadcast to WebSocket
   const handleTabChange = (newTab) => {
     setActiveTab(newTab); // Update local tab state
 
@@ -31,16 +30,16 @@ export const Navbar = () => {
     }
   };
 
-  // ✅ FIX 3: Listen for incoming WebSocket Tab Change events from other screens
+  // Listen for incoming WebSocket Tab Change events from other screens
   useEffect(() => {
     if (lastMessage) {
       // Check if message is a Tab Change/Mirror event from another screen
       const incomingTab = lastMessage.activeTab || (lastMessage.payload && lastMessage.payload.targetId);
-      
+
       if (incomingTab) {
-        // Remove '-tab' suffix if sent in targetId format (e.g., 'gallery-tab' -> 'gallery')
+        // Remove '-tab' suffix if sent in targetId format 
         const cleanTabName = incomingTab.replace('-tab', '');
-        
+
         if (cleanTabName !== activeTab) {
           console.log('🔄 Mirror Tab Change Received:', cleanTabName);
           setActiveTab(cleanTabName); // Auto-switch tab on this screen
