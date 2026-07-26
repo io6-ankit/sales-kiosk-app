@@ -18,8 +18,12 @@
 		<license/>
 	</licenses>
 	<developers>
-		<developer/>
-	</developers>
+    <developer>
+        <id>ankit</id>
+        <name>Ankit Maurya</name>
+        <email>io6.ankitmaurya@gmail.com</email>
+    </developer>
+</developers>
 	<scm>
 		<connection/>
 		<developerConnection/>
