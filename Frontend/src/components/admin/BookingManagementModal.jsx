@@ -1,4 +1,3 @@
-// src/components/admin/BookingManagementModal.jsx
 import React, { useEffect, useState } from 'react';
 import {
   Dialog,

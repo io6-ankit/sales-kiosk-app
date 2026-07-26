@@ -1,4 +1,3 @@
-// src/components/common/MortgageCalculatorWidget.jsx
 import React, { useState } from 'react';
 import { Card, CardContent, Typography, TextField, Box, Button } from '@mui/material';
 import CalculateIcon from '@mui/icons-material/Calculate';

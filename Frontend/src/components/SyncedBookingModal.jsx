@@ -1,4 +1,3 @@
-// src/components/SyncedBookingModal.jsx
 import React from 'react';
 import {
   Dialog,
@@ -47,7 +46,7 @@ export const SyncedBookingModal = () => {
 
   return (
     <>
-      {/* 🏢 Synchronized Unit Details Modal */}
+      {/* Synchronized Unit Details Modal */}
       <Dialog
         open={Boolean(unitDetailsModalOpen && selectedUnit)}
         onClose={handleCloseUnitDetails}
@@ -91,8 +90,8 @@ export const SyncedBookingModal = () => {
                       selectedUnit.status === 'BOOKED'
                         ? 'error'
                         : selectedUnit.status === 'BLOCKED'
-                        ? 'warning'
-                        : 'success'
+                          ? 'warning'
+                          : 'success'
                     }
                     size="small"
                   />
@@ -121,7 +120,7 @@ export const SyncedBookingModal = () => {
         )}
       </Dialog>
 
-      {/* 📝 Synchronized Booking Form Modal */}
+      {/* Synchronized Booking Form Modal */}
       <Dialog
         open={Boolean(bookingModalOpen && selectedUnit)}
         onClose={handleCloseBooking}

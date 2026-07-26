@@ -1,4 +1,3 @@
-// src/components/common/FeedbackSnackbar.jsx
 import React from 'react';
 import { Snackbar, Alert } from '@mui/material';
 import { useKiosk } from '../../hooks/useKiosk';

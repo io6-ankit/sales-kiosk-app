@@ -1,4 +1,3 @@
-// src/components/SyncedMediaPlayer.jsx
 import React, { useRef, useEffect } from 'react';
 import {
   Dialog,
@@ -39,7 +38,7 @@ export const SyncedMediaPlayer = () => {
 
     // Play/Pause Control Synchronization
     if (isVideoPlaying && videoEl.paused) {
-      videoEl.play().catch(() => {});
+      videoEl.play().catch(() => { });
     } else if (!isVideoPlaying && !videoEl.paused) {
       videoEl.pause();
     }
@@ -74,7 +73,7 @@ export const SyncedMediaPlayer = () => {
 
   return (
     <>
-      {/* 🖼️ Synchronized Image Lightbox Modal */}
+      {/*Synchronized Image Lightbox Modal */}
       <Dialog
         open={Boolean(activeImage)}
         onClose={handleCloseImage}
@@ -112,7 +111,7 @@ export const SyncedMediaPlayer = () => {
         )}
       </Dialog>
 
-      {/* 🎬 Synchronized Video Player Modal */}
+      {/* Synchronized Video Player Modal */}
       <Dialog
         open={Boolean(activeVideo)}
         onClose={handleCloseVideo}

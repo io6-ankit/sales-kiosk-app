@@ -1,4 +1,3 @@
-// src/App.jsx
 import React from 'react';
 import { WebSocketProvider } from './context/WebSocketContext';
 import { KioskProvider } from './context/KioskContext';
